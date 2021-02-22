@@ -1,0 +1,43 @@
+name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+  branches:
+    include:
+      - 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: Hemmeligheter
+  - group: PyPIHemmeligheter
+  - name: fullSha
+    value: '$(Build.SourceVersion)'
+  - name: imageName
+    value: 'eu.gcr.io/prod-bip/ssb/dapla/dapla-pypiserver'
+  - name: repoName
+    value: 'prod-bip/ssb/dapla/dapla-pypiserver'
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: statisticsnorway/azure-pipelines-templates
+      ref: refs/tags/1.1.10
+      endpoint: statisticsnorway
+
+jobs:
+  - job: buildAndPush
+    displayName: 'build and push Dockerimage'
+    steps:
+      - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
+        env:
+          PYPI_ADMIN_USERNAME: PyPIHemmeligheter.username
+          PYPI_ADMIN_PASSWORD: PyPIHemmeligheter.password
+        parameters:
+          imageName: $(imageName)
+          repoName: $(repoName)
+  - template: 'docker/docker-tag-for-production.yml@templates'
+    parameters:
+      tagToTag: 'main-$(fullSha)'
+      gcrImageName: $(imageName)
