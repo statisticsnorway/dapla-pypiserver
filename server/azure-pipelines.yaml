@@ -10,7 +10,6 @@ pool:
 
 variables:
   - group: Hemmeligheter
-  - group: PyPIHemmeligheter
   - name: fullSha
     value: '$(Build.SourceVersion)'
   - name: imageName
@@ -31,9 +30,6 @@ jobs:
     displayName: 'build and push Dockerimage'
     steps:
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
-        env:
-          PYPI_ADMIN_USERNAME: PyPIHemmeligheter.username
-          PYPI_ADMIN_PASSWORD: PyPIHemmeligheter.password
         parameters:
           imageName: $(imageName)
           repoName: $(repoName)
