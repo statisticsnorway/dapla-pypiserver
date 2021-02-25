@@ -1,4 +1,4 @@
-FROM python
+FROM python:3.9-alpine
 
 #RUN apt-get -y clean all && apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 RUN apk update && apk upgrade
