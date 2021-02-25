@@ -14,4 +14,4 @@ RUN pip config set global.target $SERVED_PACKAGES_DIRECTORY
 EXPOSE 8080
 
 ENTRYPOINT ["pypi-server"]
-CMD ["--disable-fallback","-P","credentials/htpasswd.txt","-a","update,download,list","-d","$SERVED_PACKAGES_DIRECTORY"]
+CMD ["--disable-fallback","-P","credentials/htpasswd.txt","-a","update,download","-d","$SERVED_PACKAGES_DIRECTORY"]
