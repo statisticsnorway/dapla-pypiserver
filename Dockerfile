@@ -6,7 +6,7 @@ RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pypiserver
 RUN python3 -m pip install passlib
 RUN mkdir /credentials
-COPY htpasswd.txt credentials/password.txt
+COPY htpasswd.txt credentials/htpasswd.txt
 ENV SERVED_PACKAGES_DIRECTORY=/root/packages
 RUN mkdir $SERVED_PACKAGES_DIRECTORY
 RUN pip config set global.target $SERVED_PACKAGES_DIRECTORY
@@ -14,4 +14,4 @@ RUN pip config set global.target $SERVED_PACKAGES_DIRECTORY
 EXPOSE 8080
 
 ENTRYPOINT ["pypi-server"]
-CMD ["--disable-fallback","--authenticate",".","-P","credentials/password.txt","-d", "$SERVED_PACKAGES_DIRECTORY"]
+CMD ["--disable-fallback","-P","credentials/htpasswd.txt","-a","update,download,list","-d","$SERVED_PACKAGES_DIRECTORY"]
