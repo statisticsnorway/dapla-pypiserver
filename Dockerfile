@@ -14,4 +14,4 @@ RUN pip config set global.target $SERVED_PACKAGES_DIRECTORY
 EXPOSE 8080
 
 ENTRYPOINT ["pypi-server"]
-CMD ["--disable-fallback","--authenticate","update","-P","credentials/password.txt","-d", "$SERVED_PACKAGES_DIRECTORY"]
+CMD ["--disable-fallback","--authenticate",".","-P","credentials/password.txt","-d", "$SERVED_PACKAGES_DIRECTORY"]
