@@ -30,7 +30,7 @@ RUN apk add make automake gcc g++ subversion python3-dev
 RUN apk add --no-cache --upgrade bash
 RUN apk add bash-doc bash-completion
 RUN apk add util-linux pciutils usbutils coreutils binutils findutils grep
-RUN apk --update --upgrade add gcc
+RUN apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev
 RUN apk add libxml2 libxslt
 RUN apk add geos geos-dev
 RUN apk add gdal gdal-dev
