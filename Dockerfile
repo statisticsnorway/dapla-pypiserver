@@ -18,7 +18,6 @@ RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
 RUN chown -R jovyan /home/jovyan
 USER jovyan
 RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
-RUN echo "*** 'python3 -m pip download'-ing all Python packages in '/packages.txt' to the directory '$SERVED_PACKAGES_DIRECTORY' . . . ***"
 RUN while read -r in; do python3 -m pip download -d "$SERVED_PACKAGES_DIRECTORY" "$in"; done < "/packages.txt"
 
 FROM python:3.9-alpine
