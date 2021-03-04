@@ -13,10 +13,11 @@ RUN apt update && \
     zlib1g-dev libgit2-dev libtesseract-dev libleptonica-dev && \
     rm -rf /var/lib/apt/lists/*
 COPY Packages.txt /packages.txt
-ENV SERVED_PACKAGES_DIRECTORY=/Users/jovyan/packages
+ENV SERVED_PACKAGES_DIRECTORY=/home/jovyan/packages
 RUN mkdir $SERVED_PACKAGES_DIRECTORY
-USER jovyan
 RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
+RUN chmown -R jovyan /home/jovyan
+USER jovyan
 RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
 RUN echo "*** 'python3 -m pip download'-ing all Python packages in '/packages.txt' to the directory '$SERVED_PACKAGES_DIRECTORY' . . . ***"
 RUN while read -r in; do python3 -m pip download -d "$SERVED_PACKAGES_DIRECTORY" "$in"; done < "/packages.txt"
@@ -24,7 +25,6 @@ RUN while read -r in; do python3 -m pip download -d "$SERVED_PACKAGES_DIRECTORY"
 FROM python:3.9-alpine
 
 USER root
-#RUN apt-get -y clean all && apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 RUN apk update && apk upgrade
 RUN apk add make automake gcc g++ subversion python3-dev
 RUN apk add --no-cache --upgrade bash
@@ -45,7 +45,7 @@ ENV SERVED_PACKAGES_DIRECTORY=/root/packages
 RUN mkdir $SERVED_PACKAGES_DIRECTORY
 RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
 RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
-COPY --from=package-dowloader /Users/jovyan/packages $SERVED_PACKAGES_DIRECTORY
+COPY --from=package-dowloader /home/jovyan/packages $SERVED_PACKAGES_DIRECTORY
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8080
