@@ -16,7 +16,7 @@ COPY Packages.txt /packages.txt
 ENV SERVED_PACKAGES_DIRECTORY=/home/jovyan/packages
 RUN mkdir $SERVED_PACKAGES_DIRECTORY
 RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
-RUN chmown -R jovyan /home/jovyan
+RUN chown -R jovyan /home/jovyan
 USER jovyan
 RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
 RUN echo "*** 'python3 -m pip download'-ing all Python packages in '/packages.txt' to the directory '$SERVED_PACKAGES_DIRECTORY' . . . ***"
