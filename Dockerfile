@@ -2,7 +2,6 @@ FROM jupyter/all-spark-notebook:95ccda3619d0 as package-dowloader
 
 USER jovyan
 RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install pypi-uploader
 USER root
 RUN apt update && \
     apt-get -y clean all && \
