@@ -2,7 +2,11 @@
 
 A `pypiserver` instance with password protection on uploads and downloads. Only packages on this server should be downloadable from JupyterLab instances.
 
-The `dapla-pypiserver-updater`(https://github.com/statisticsnorway/dapla-pypiserver-updater) retrieves whitelisted packages (whitelist found in updater repo) from PyPI, and uploads them to this pypiserver. Go to the updater repo to make requests to add packages or specific versions to the whitelist.
+The file `Packages.txt` contains a list of packages that are downloaded and built into the pypiserver's docker image.
+
+If you want to add a new python package (or a specific version of a package) to the pypiserver, simply create a new branch on this repository, and write the name of the package on a new line in the file Packages.txt. Then make a pull request to the main branch, and request a review from someone in the DAPLA team.
+
+If you need a specific version of a package, simply list it like you would using the `pip install` command, so for instance `pandas==1.2.0` if you want version 1.2.0 of the pandas library.
 
 When a user of JupyterLab wants to install a new Python package, or a specific version of a Python package, they can use a terminal window or a bash script to execute standard `pip` commands:
 - `pip search <package-name>` to list all available versions of a package. 
