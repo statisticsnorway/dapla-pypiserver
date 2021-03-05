@@ -1,6 +1,5 @@
 numpy
 pandas
-pandas==1.2.0
 jupyterlab-git
 nbdime
 nbstripout
@@ -20,3 +19,18 @@ ipysheet
 ipyaggrid
 qgrid
 fuzzywuzzy[speedup]
+scikit-learn
+statsmodels
+matplotlib
+seaborne
+plotly
+ssb-spark-tools
+nltk
+black
+nbdev
+fastcore
+fastai
+tensorflow
+Keras
+progress
+progressbar2
