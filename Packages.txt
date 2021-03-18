@@ -1,6 +1,7 @@
 numpy
 pandas
-pandas==1.2.0
+pandas==1.1.*
+koalas
 jupyterlab-git
 nbdime
 nbstripout
@@ -23,7 +24,7 @@ fuzzywuzzy[speedup]
 scikit-learn
 statsmodels
 matplotlib
-seaborne
+seaborn
 plotly
 ssb-spark-tools
 nltk
@@ -32,6 +33,6 @@ nbdev
 fastcore
 fastai
 tensorflow
-Keras
+keras
 progress
 progressbar2
