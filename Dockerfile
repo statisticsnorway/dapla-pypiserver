@@ -38,13 +38,15 @@ RUN python3 -m pip install passlib
 RUN mkdir /credentials
 COPY htpasswd.txt credentials/htpasswd.txt
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 COPY Packages.txt /packages.txt
 ENV SERVED_PACKAGES_DIRECTORY=/root/packages
 RUN mkdir $SERVED_PACKAGES_DIRECTORY
 RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
 RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
 COPY --from=package-dowloader /home/jovyan/packages $SERVED_PACKAGES_DIRECTORY
-RUN chmod +x /entrypoint.sh
+RUN chmod 444 $SERVED_PACKAGES_DIRECTORY
+USER guest
 
 EXPOSE 8080
 
