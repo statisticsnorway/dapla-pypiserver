@@ -1,4 +1,4 @@
-FROM jupyter/all-spark-notebook:95ccda3619d0 as package-dowloader
+FROM jupyter/all-spark-notebook:95ccda3619d0 as package-downloader
 
 USER jovyan
 RUN python3 -m pip install --upgrade pip
@@ -35,18 +35,21 @@ RUN apk add gdal gdal-dev
 RUN python3 -m pip install --upgrade pip wheel setuptools
 RUN python3 -m pip install pypiserver
 RUN python3 -m pip install passlib
+COPY Packages.txt /packages.txt
+
+RUN addgroup -S servergroup && adduser -S serveruser -G servergroup
+ENV SERVED_PACKAGES_DIRECTORY=/home/serveruser/packages
+RUN mkdir $SERVED_PACKAGES_DIRECTORY
+RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
+RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
+COPY --from=package-downloader /home/jovyan/packages $SERVED_PACKAGES_DIRECTORY
+RUN chown -R serveruser $SERVED_PACKAGES_DIRECTORY
+RUN chmod -R 554 $SERVED_PACKAGES_DIRECTORY
 RUN mkdir /credentials
 COPY htpasswd.txt credentials/htpasswd.txt
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-COPY Packages.txt /packages.txt
-ENV SERVED_PACKAGES_DIRECTORY=/root/packages
-RUN mkdir $SERVED_PACKAGES_DIRECTORY
-RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
-RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
-COPY --from=package-dowloader /home/jovyan/packages $SERVED_PACKAGES_DIRECTORY
-RUN chmod 444 $SERVED_PACKAGES_DIRECTORY
-USER guest
+USER serveruser
 
 EXPOSE 8080
 
