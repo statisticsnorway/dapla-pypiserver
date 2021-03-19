@@ -35,3 +35,4 @@ tensorflow
 Keras
 progress
 progressbar2
+twine
