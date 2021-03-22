@@ -33,6 +33,6 @@ nbdev
 fastcore
 fastai
 tensorflow
-keras
+Keras
 progress
 progressbar2
