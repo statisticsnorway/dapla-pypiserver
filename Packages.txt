@@ -36,3 +36,4 @@ Keras
 progress
 progressbar2
 twine
+pipenv
