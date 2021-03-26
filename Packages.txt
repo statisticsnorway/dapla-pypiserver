@@ -38,4 +38,4 @@ progress
 progressbar2
 twine
 pipenv
-https://github.com/NordicHPC/envkernel/archive/master.zip
+envkernel
