@@ -38,4 +38,5 @@ progress
 progressbar2
 twine
 pipenv
-envkernel
+ssb-ipython-kernels
+
