@@ -39,3 +39,15 @@ progressbar2
 twine
 pipenv
 ssb-ipython-kernels
+ssb-ipython-kernels==0.2.22
+ssb_spark_tools
+ssb_spark_tools==0.1.1
+pytest
+pytest_tornasync
+pyjstat
+xmltodict
+lxml
+holidays
+gcsfs
+gcsfs==0.6.2
+pyarrow
