@@ -39,4 +39,3 @@ progressbar2
 twine
 pipenv
 ssb-ipython-kernels
-
