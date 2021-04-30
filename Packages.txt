@@ -43,6 +43,7 @@ oauthenticator
 pyspark
 requests-cache==0.5.2
 ssb-ipython-kernels
+ssb-ipython-kernels==0.2.28
 ssb-ipython-kernels==0.2.22
 ssb-spark-tools
 ssb_spark_tools
