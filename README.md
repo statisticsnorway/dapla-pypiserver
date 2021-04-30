@@ -8,7 +8,7 @@ If you want to add a new python package (or a specific version of a package) to 
 
 If you need a specific version of a package, simply list it like you would using the `pip install` command, so for instance `pandas==1.2.0` if you want version 1.2.0 of the pandas library.
 
-When a user of JupyterLab wants to install a new Python package, or a specific version of a Python package, they can use a terminal window or a bash script to execute standard `pip` commands:
+When a user of JupyterLab wants to install a new Python package, or a specific version of a Python package, they can use a terminal window or a bash script to execute standard `pip` commands (Or the equivalent `pipenv` command, to install a package for a specific virtual environment):
 - `pip search <package-name>` to list all available versions of a package. 
 - `pip install <package-name>` to install the latest available version of a package. 
 - `pip install <package-name>==<version>` to install a specific version of a package. 
