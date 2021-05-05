@@ -24,7 +24,7 @@ resources:
       name: statisticsnorway/azure-pipelines-templates
       ref: refs/tags/1.1.10
       endpoint: statisticsnorway
-    
+
 jobs:
   - job: buildAndPush
     displayName: 'build and push Dockerimage'
@@ -36,21 +36,21 @@ jobs:
           cacheHitVar: DOCKER_CACHE_HIT
         displayName: Cache Docker images
       - script: |
-          docker load -i $(Pipeline.Workspace)/docker/cache.tar
-        displayName: Restore Docker image
-        condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))    
+            docker load -i $(Pipeline.Workspace)/docker/cache.tar
+            displayName: Restore Docker image
+            condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
         parameters:
           imageName: $(imageName)
           repoName: $(repoName)
           Dockerfile: "Dockerfile"
       - script: |
-          mkdir -p $(Pipeline.Workspace)/docker
-          docker save -o $(Pipeline.Workspace)/docker/cache.tar cache
+           mkdir -p $(Pipeline.Workspace)/docker
+           docker save -o $(Pipeline.Workspace)/docker/cache.tar cache
         displayName: Save Docker image
         condition: and(not(canceled()), or(failed(), ne(variables.DOCKER_CACHE_HIT, 'true')))
-
-- template: 'docker/docker-tag-for-production.yml@templates'
+  - template: 'docker/docker-tag-for-production.yml@templates'
     parameters:
       tagToTag: 'main-$(fullSha)'
       gcrImageName: $(imageName)
+    
