@@ -29,13 +29,14 @@ RUN apk update && apk upgrade && \
     apk add --no-cache --upgrade bash && \
     apk add bash-doc bash-completion util-linux pciutils usbutils coreutils binutils findutils grep
 
-RUN python3 -m pip install --upgrade pip wheel setuptools pypiserver passlib && Packages.txt /packages.txt
+RUN python3 -m pip install --upgrade pip wheel setuptools pypiserver passlib
+COPY Packages.txt /packages.txt
 
 RUN addgroup -S servergroup && adduser -S serveruser -G servergroup
 ENV SERVED_PACKAGES_DIRECTORY=/home/serveruser/packages
 RUN mkdir $SERVED_PACKAGES_DIRECTORY && \
     echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py && \
-    export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY" && \
+    export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
 
 COPY --from=package-downloader /home/jovyan/packages $SERVED_PACKAGES_DIRECTORY
 RUN chown -R serveruser $SERVED_PACKAGES_DIRECTORY && \
