@@ -37,8 +37,8 @@ jobs:
         displayName: Cache Docker images
       - script: |
             docker load -i $(Pipeline.Workspace)/docker/cache.tar
-            displayName: Restore Docker image
-            condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))
+        displayName: Restore Docker image
+        condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
         parameters:
           imageName: $(imageName)
