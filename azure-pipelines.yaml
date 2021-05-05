@@ -16,6 +16,8 @@ variables:
     value: 'eu.gcr.io/prod-bip/ssb/dapla/dapla-pypiserver'
   - name: repoName
     value: 'prod-bip/ssb/dapla/dapla-pypiserver'
+  - name: DOCKER_BUILDKIT
+    value: 1
 
 resources:
   repositories:
@@ -29,26 +31,11 @@ jobs:
   - job: buildAndPush
     displayName: 'build and push Dockerimage'
     steps:
-      - task: Cache@2
-        inputs:
-          key: 'docker | cache'
-          path: $(Pipeline.Workspace)/docker
-          cacheHitVar: DOCKER_CACHE_HIT
-        displayName: Cache Docker images
-      - script: |
-            docker load -i $(Pipeline.Workspace)/docker/cache.tar
-        displayName: Restore Docker image
-        condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
         parameters:
           imageName: $(imageName)
           repoName: $(repoName)
           Dockerfile: "Dockerfile"
-      - script: |
-           mkdir -p $(Pipeline.Workspace)/docker
-           docker save -o $(Pipeline.Workspace)/docker/cache.tar cache
-        displayName: Save Docker image
-        condition: and(not(canceled()), or(failed(), ne(variables.DOCKER_CACHE_HIT, 'true')))
   - template: 'docker/docker-tag-for-production.yml@templates'
     parameters:
       tagToTag: 'main-$(fullSha)'
