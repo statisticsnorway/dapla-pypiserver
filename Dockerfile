@@ -18,7 +18,7 @@ RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
 RUN chown -R jovyan /home/jovyan
 USER jovyan
 RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
-RUN while read -r in; do python3 -m pip download -d "$SERVED_PACKAGES_DIRECTORY" "$in"; done < "/packages.txt"
+RUN pip download -r /packages.txt -d "$SERVED_PACKAGES_DIRECTORY"
 
 FROM python:3.9-alpine
 
