@@ -38,19 +38,19 @@ jobs:
       - script: |
           docker load -i $(Pipeline.Workspace)/docker/cache.tar
         displayName: Restore Docker image
-        condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))
-      - script: |
-          mkdir -p $(Pipeline.Workspace)/docker
-          docker save -o $(Pipeline.Workspace)/docker/cache.tar cache
-        displayName: Save Docker image
-        condition: and(not(canceled()), or(failed(), ne(variables.DOCKER_CACHE_HIT, 'true')))
-    
+        condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))    
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
         parameters:
           imageName: $(imageName)
           repoName: $(repoName)
           Dockerfile: "Dockerfile"
-  - template: 'docker/docker-tag-for-production.yml@templates'
+      - script: |
+          mkdir -p $(Pipeline.Workspace)/docker
+          docker save -o $(Pipeline.Workspace)/docker/cache.tar cache
+        displayName: Save Docker image
+        condition: and(not(canceled()), or(failed(), ne(variables.DOCKER_CACHE_HIT, 'true')))
+
+- template: 'docker/docker-tag-for-production.yml@templates'
     parameters:
       tagToTag: 'main-$(fullSha)'
       gcrImageName: $(imageName)
