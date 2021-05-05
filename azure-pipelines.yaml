@@ -24,11 +24,6 @@ resources:
       name: statisticsnorway/azure-pipelines-templates
       ref: refs/tags/1.1.10
       endpoint: statisticsnorway
-
-pool:
-  vmImage: 'Ubuntu-16.04'
-
-steps:
     
 jobs:
   - job: buildAndPush
