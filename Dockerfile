@@ -24,7 +24,7 @@ FROM python:3.9-alpine
 
 USER root
 RUN apk update && apk upgrade && \
-    apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev libxml2 libxslt geos geos-dev gdal gdal-dev && \
+    apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev libxml2 libxslt geos geos-dev gdal gdal-dev \
     make automake gcc g++ subversion python3-dev && \
     apk add --no-cache --upgrade bash && \
     apk add bash-doc bash-completion util-linux pciutils usbutils coreutils binutils findutils grep
