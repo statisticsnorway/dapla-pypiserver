@@ -40,10 +40,10 @@ jobs:
         displayName: Restore Docker image
         condition: and(not(canceled()), eq(variables.DOCKER_CACHE_HIT, 'true'))    
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
-          parameters:
-            imageName: $(imageName)
-            repoName: $(repoName)
-            Dockerfile: "Dockerfile"
+        parameters:
+          imageName: $(imageName)
+          repoName: $(repoName)
+          Dockerfile: "Dockerfile"
       - script: |
           mkdir -p $(Pipeline.Workspace)/docker
           docker save -o $(Pipeline.Workspace)/docker/cache.tar cache
