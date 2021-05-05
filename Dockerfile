@@ -23,29 +23,24 @@ RUN while read -r in; do python3 -m pip download -d "$SERVED_PACKAGES_DIRECTORY"
 FROM python:3.9-alpine
 
 USER root
-RUN apk update && apk upgrade
-RUN apk add make automake gcc g++ subversion python3-dev
-RUN apk add --no-cache --upgrade bash
-RUN apk add bash-doc bash-completion
-RUN apk add util-linux pciutils usbutils coreutils binutils findutils grep
-RUN apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev
-RUN apk add libxml2 libxslt
-RUN apk add geos geos-dev
-RUN apk add gdal gdal-dev
-RUN python3 -m pip install --upgrade pip wheel setuptools
-RUN python3 -m pip install pypiserver
-RUN python3 -m pip install passlib
-COPY Packages.txt /packages.txt
+RUN apk update && apk upgrade && \
+    apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev libxml2 libxslt geos geos-dev gdal gdal-dev && \
+    make automake gcc g++ subversion python3-dev && \
+    apk add --no-cache --upgrade bash && \
+    apk add bash-doc bash-completion util-linux pciutils usbutils coreutils binutils findutils grep
+
+RUN python3 -m pip install --upgrade pip wheel setuptools pypiserver passlib && Packages.txt /packages.txt
 
 RUN addgroup -S servergroup && adduser -S serveruser -G servergroup
 ENV SERVED_PACKAGES_DIRECTORY=/home/serveruser/packages
-RUN mkdir $SERVED_PACKAGES_DIRECTORY
-RUN echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py
-RUN export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY"
+RUN mkdir $SERVED_PACKAGES_DIRECTORY && \
+    echo "" > $SERVED_PACKAGES_DIRECTORY/__init__.py && \
+    export PYTHONPATH="${PYTHONPATH}:$SERVED_PACKAGES_DIRECTORY" && \
+
 COPY --from=package-downloader /home/jovyan/packages $SERVED_PACKAGES_DIRECTORY
-RUN chown -R serveruser $SERVED_PACKAGES_DIRECTORY
-RUN chmod -R 554 $SERVED_PACKAGES_DIRECTORY
-RUN mkdir /credentials
+RUN chown -R serveruser $SERVED_PACKAGES_DIRECTORY && \
+    chmod -R 554 $SERVED_PACKAGES_DIRECTORY && \
+    mkdir /credentials
 COPY htpasswd.txt credentials/htpasswd.txt
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
