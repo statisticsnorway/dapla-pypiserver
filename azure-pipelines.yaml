@@ -16,6 +16,8 @@ variables:
     value: 'eu.gcr.io/prod-bip/ssb/dapla/dapla-pypiserver'
   - name: repoName
     value: 'prod-bip/ssb/dapla/dapla-pypiserver'
+  - name: DOCKER_BUILDKIT
+    value: 1
 
 resources:
   repositories:
@@ -38,3 +40,4 @@ jobs:
     parameters:
       tagToTag: 'main-$(fullSha)'
       gcrImageName: $(imageName)
+    
