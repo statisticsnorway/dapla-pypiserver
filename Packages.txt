@@ -38,6 +38,8 @@ plotly
 progress
 progressbar2
 pyarrow
+pyarrow==3.0.0
+pyarrow==4.0.1
 pyjstat
 pyspark
 pytest
