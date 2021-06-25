@@ -31,6 +31,8 @@ numpy
 oauthenticator
 pandas
 pandas==1.1.*
+pandas==1.2.4
+pandas==1.2.5
 panel
 papermill
 pipenv
@@ -50,8 +52,10 @@ requests-cache==0.5.2
 scikit-learn
 seaborn
 ssb-ipython-kernels
-ssb-ipython-kernels==0.2.28
 ssb-ipython-kernels==0.2.22
+ssb-ipython-kernels==0.2.28
+ssb-ipython-kernels==0.2.32
+ssb-ipython-kernels==0.3.1
 ssb-spark-tools
 ssb_spark_tools==0.1.1
 ssb_spark_tools==0.1.3
