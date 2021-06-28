@@ -34,7 +34,7 @@ resources:
 
 jobs:
   - job: buildAndPush
-    condition: eq(variables.isMain, true)
+    condition: eq(False, startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
     displayName: 'build and push Dockerimage'
     steps:
       - template: 'docker/docker-build-image-and-push-to-gcr.yml@templates'
